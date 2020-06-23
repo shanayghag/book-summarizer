@@ -1,0 +1,120 @@
+{% extends "public/templates/public_template.html" %}
+
+{% block title %}Book Summarization{% endblock %}
+
+{% block main %}
+
+<header style="border-radius: 0 0 0 0;" class="jumbotron">
+    <div class="container">
+        <div class="row row-header">
+            <div class="col header-texth">
+                <h1 align="center">Book Summarization <sup>(&beta;)</sup></h1>
+                <div class="col header-textp">
+                    <p align="center">Created by: <a href="https://www.linkedin.com/in/shanay-ghag-0881b319a/">Shanay Ghag</a>
+                        and <a href="https://www.linkedin.com/in/saarthdeshpande/">Saarth Deshpande</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+<div class="container">
+        <div class="row">
+            <div class="col">
+            <form  enctype="multipart/form-data" id = "submit-form">
+                <div class="form-group" align="center">
+                    <br>
+                    <p>
+                        Upload the PDF of a book to summarize. <br>
+                        A ZIP file containing the chapter-wise summaries will be mailed to you within 30 minutes.
+                    </p>
+                    <label>Email ID: </label>
+                    <input type="email" name="email" id="email">
+                    <br>
+                    <br>
+                    <div class="custom-file pdf" align="center">
+                        <input type="file" name="pdf" id="pdf" class="custom-file-input">
+                        <label class="custom-file-label" for="pdf" text-align="center">Upload PDF</label>
+                    </div>
+                    <br>
+                    <br>
+                    <button style="margin:auto;display:block" onClick="myFunction(event)"
+                    type="submit" class="btn btn-primary">Submit PDF </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<footer class="footer">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-auto">
+                <p>Source Code: <a href="https://github.com/saarthdeshpande/book-summarizer">GitHub</a></p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+{% endblock %}
+
+{% block script %}
+
+<script>
+
+        $(".custom-file-input").on("change", function() {
+          var fileName = $(this).val().split("\\").pop();
+          $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+        });
+
+        function ValidateEmail(mail)
+        {
+          if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(mail))
+          {
+            return (true)
+          }
+           alert("Invalid email address!")
+           return (false)
+         }
+
+        function myFunction(e){
+        e.preventDefault()
+        var file = document.getElementById('pdf').files[0]
+        var mailid = document.getElementById('email').value
+
+        if(!file){
+        alert("PDF must have a filename.");
+        return;
+        }
+
+        if(!ValidateEmail(mailid)){
+        return;
+        }
+        if(!file.type.match('application/pdf')){
+            alert('Incorrect extension. Please upload a PDF.');
+            return;
+        }
+        if (file.size >= 20000000 ) {
+            alert('Size limit exceeded.\nMax size allowed: 20 Mb.');
+            return;
+        }
+
+        var formData = new FormData();
+        formData.append('email', $('#email').val())
+        formData.append('pdf', $('#pdf')[0].files[0])
+
+        $.ajax({
+           url : '/upload-pdf',
+           type : 'POST',
+           data : formData,
+           processData: false,  // tell jQuery not to process the data
+           contentType: false,  // tell jQuery not to set contentType
+           success : function(data) {
+               alert('Upload successful.\nEmail is being processed.\nThank you.');
+               $('#submit-form').trigger("reset");
+            }
+        });
+    }
+
+</script>
+
+{% endblock %}
+
