@@ -1,6 +1,12 @@
 # Book-Summarizer
 Using pretrained T5 model for abstractive summarization of books
-
+<p>
+  <b>Creators</b>:<br>
+  <ul>
+    <li><a href ="https://github.com/shanayghag">Shanay Ghag</a></li>
+    <li><a href ="https://github.com/saarthdeshpande">Saarth Deshpande</a></li>
+  </ul>
+</p>
 <b>NLP-based</b> book summarizer which summarises the book chapter-wise.<br>
 In case the book does not contain chapters: the entire book is summarized.
 
