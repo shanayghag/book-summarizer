@@ -51,5 +51,7 @@ python3 views.py
 
 <p>
   <h4>Screenshots</h4>
+  <img src="https://github.com/shanayghag/book-summarizer/blob/master/screenshots/homepage.png">
+  <img src="https://github.com/shanayghag/book-summarizer/blob/master/screenshots/mail.png">
 </p>
 
